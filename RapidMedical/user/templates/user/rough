@@ -1,0 +1,82 @@
+class HospitalPofileUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ['image','phoneNumber', 'description', 'FrontView', 'Backview','location']
+
+
+
+
+
+
+ HospitalPofileUpdateForm,
+
+                <a href="{% url 'update' request.user.id %}">Update Profile</a>
+
+def HospitalUpdateProfile(request):
+
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST,instance=request.user)
+        p_form = HospitalPofileUpdateForm(request.POST,
+        request.FILES,
+        instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Account Update Successful!')
+            return redirect('profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'user/HospitalprofileUpdate.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def UpdateProfile(request, profileId):
+    p = User.objects.get(id=profileId)
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST,instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+        request.FILES,
+        instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Account Update Successful!')
+            return redirect('profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'user/profileUpdate.html', context)

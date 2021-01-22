@@ -1,0 +1,35 @@
+{% extends 'user/Base.html' %}
+{% load static %}        
+    {% block content %}
+        <div>
+            <img class="profilePic" src="{{ user.profile.image.url }}">
+            <br>
+            <span>
+                <h3 class="line">{{ user.username }}</h3>
+                {% if user.profile.verified %}
+                    <img class="lineT" src="{% static 'images/verified.jpg' %}"> 
+                {% else %}
+                {% endif %}
+            </span>
+            {% if user.profile.bio %}
+                <h4>Bio: {{ user.profile.bio }}</h4>
+            {% else %}
+                <h4>Bio: Bio has not been provided</h4>
+            {% endif %}
+            <h4>Email: {{ user.email }}</h4>
+            <h4>Joined on: {{ user.date_joined|date:"F d, Y" }}</h4>
+            {% if request.user == user %}
+                {% if request.user.profile.is_hospital %}
+                {% else %}
+                    <a href="{% url 'update' request.user.id %}">Update Profile</a>
+                {% endif %}
+                <div class="border-top pt-3">
+                    <small class="text-muted">
+                    For hospital Use Only! Click here to Update Informations <a class="ml-2" href="{% url 'H-update' request.user.id %}">Add Details</a>
+                    </small>
+                </div>
+            {% else %}
+            {% endif %}
+        </div>
+    
+    {% endblock content %}
